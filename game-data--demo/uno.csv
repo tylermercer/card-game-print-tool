@@ -1,0 +1,51 @@
+title,body,backText,backColor,frontColor,quantity
+Wild,,UNO,black,black,4
+Draw 4,Wild,UNO,black,black,4
+1,,UNO,black,red,1
+2,,UNO,black,red,1
+3,,UNO,black,red,1
+4,,UNO,black,red,1
+5,,UNO,black,red,1
+6,,UNO,black,red,1
+7,,UNO,black,red,1
+8,,UNO,black,red,1
+9,,UNO,black,red,1
+Skip,,UNO,black,red,2
+Reverse,,UNO,black,red,2
+Draw 2,,UNO,black,red,2
+1,,UNO,black,blue,1
+2,,UNO,black,blue,1
+3,,UNO,black,blue,1
+4,,UNO,black,blue,1
+5,,UNO,black,blue,1
+6,,UNO,black,blue,1
+7,,UNO,black,blue,1
+8,,UNO,black,blue,1
+9,,UNO,black,blue,1
+Skip,,UNO,black,blue,2
+Reverse,,UNO,black,blue,2
+Draw 2,,UNO,black,blue,2
+1,,UNO,black,green,1
+2,,UNO,black,green,1
+3,,UNO,black,green,1
+4,,UNO,black,green,1
+5,,UNO,black,green,1
+6,,UNO,black,green,1
+7,,UNO,black,green,1
+8,,UNO,black,green,1
+9,,UNO,black,green,1
+Skip,,UNO,black,green,2
+Reverse,,UNO,black,green,2
+Draw 2,,UNO,black,green,2
+1,,UNO,black,yellow,1
+2,,UNO,black,yellow,1
+3,,UNO,black,yellow,1
+4,,UNO,black,yellow,1
+5,,UNO,black,yellow,1
+6,,UNO,black,yellow,1
+7,,UNO,black,yellow,1
+8,,UNO,black,yellow,1
+9,,UNO,black,yellow,1
+Skip,,UNO,black,yellow,2
+Reverse,,UNO,black,yellow,2
+Draw 2,,UNO,black,yellow,2
