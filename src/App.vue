@@ -92,7 +92,7 @@ export default {
           facedown: false,
         }
       ]
-    }
+    };
   },
   methods: {
     shuffle(index) {
@@ -111,6 +111,11 @@ export default {
       this.hands[handIndex].facedown = !this.hands[handIndex].facedown;
     }
   },
+  watch: {
+    centerCard(newVal) {
+      if (newVal) this.centerFacedown = false;
+    }
+  }
 }
 </script>
 
