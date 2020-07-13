@@ -4,33 +4,70 @@
     <div class="content">
       <div class="left">
         <h2>Decks</h2>
-        <div v-for="({cards, title}, i) in decks" class="deck" :key="title">
-          <p>{{title}} ({{cards.length}} cards)</p>
-          <Card v-if="cards.length" :cardInfo="cards[cards.length-1]" facedown/>
-          <button @click="() => centerCard = cards.pop()" :disabled="!cards.length || centerCard">Draw</button>
-          <button @click="() => { cards.push(centerCard); centerCard = null }" :disabled="!centerCard">Place</button>
-          <button @click="() => shuffle(i)">Shuffle</button>
+        <div v-for="({cards, title}, i) in decks"
+             :key="title">
+          <p>
+            {{title}} ({{cards.length}} cards)
+          </p>
+          <Card v-if="cards.length"
+                :cardInfo="cards[cards.length-1]"
+                facedown/>
+          <button @click="() => centerCard = cards.pop()"
+                  :disabled="!cards.length || centerCard">
+            Draw
+          </button>
+          <button @click="() => { cards.push(centerCard); centerCard = null }"
+                  :disabled="!centerCard">
+            Place
+          </button>
+          <button @click="() => shuffle(i)">
+            Shuffle
+          </button>
         </div>
       </div>
       <div class="center">
         <h2>Current Card</h2>
-        <Card v-if="centerCard" :facedown="centerFacedown" :cardInfo="centerCard" large/>
-        <p v-else>Draw a card to view it here</p>
-        <button @click="() => centerFacedown = !centerFacedown" :disabled="!centerCard">Flip</button>
+        <Card v-if="centerCard"
+              :facedown="centerFacedown"
+              :cardInfo="centerCard"
+              large/>
+        <p v-else>
+          Draw a card to view it here
+        </p>
+        <button @click="() => centerFacedown = !centerFacedown"
+                :disabled="!centerCard">
+          Flip
+        </button>
       </div>
       <div class="right">
-        <h2>Hands</h2>
-        <div v-for="({name, cards, facedown}, i) in hands" :key="name">
-          <p>{{name}} ({{cards.length}} cards)</p>
+        <h2>
+          Hands
+        </h2>
+        <div v-for="({name, cards, facedown}, i) in hands"
+             :key="name">
+          <p>
+            {{name}} ({{cards.length}} cards)
+          </p>
           <div class="hand-inner">
-            <div v-for="(card, j) in cards" :key="card.title">
-              <Card :cardInfo="card" :facedown="facedown"/>
-              <button @click="() => useFromHand(i, j)" :disabled="centerCard">Use</button>
+            <div v-for="(card, j) in cards"
+                 :key="card.title">
+              <Card :cardInfo="card"
+                    :facedown="facedown"/>
+              <button @click="() => useFromHand(i, j)"
+                      :disabled="centerCard">
+                Use
+              </button>
             </div>
           </div>
           <div>
-            <button @click="() => { cards.push(centerCard); centerCard = null }" :disabled="!centerCard">Add to {{name}}'s Hand</button>
-            <button @click="() => flipHand(i)" :disabled="!cards.length">Flip</button>
+            <button @click="() => { cards.push(centerCard); centerCard = null }"
+                    :disabled="!centerCard">
+              Add to {{name}}'s Hand
+            </button>
+            <button @click="() => flipHand(i)"
+                    :disabled="!cards.length">
+              Flip
+            </button>
           </div>
         </div>
       </div>
