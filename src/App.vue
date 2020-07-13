@@ -21,6 +21,7 @@
       <div class="right">
         <h2>Hands</h2>
         <div v-for="({name, cards, facedown}, i) in hands" :key="name">
+          <p>{{name}} ({{cards.length}} cards)</p>
           <div class="hand-inner">
             <div v-for="(card, j) in cards" :key="card.title">
               <Card :cardInfo="card" :facedown="facedown"/>
@@ -28,7 +29,7 @@
             </div>
           </div>
           <div>
-            <button @click="() => { cards.push(centerCard); centerCard = null }" :disabled="!centerCard">Add to Hand</button>
+            <button @click="() => { cards.push(centerCard); centerCard = null }" :disabled="!centerCard">Add to {{name}}'s Hand</button>
             <button @click="() => flipHand(i)" :disabled="!cards.length">Flip</button>
           </div>
         </div>
@@ -88,6 +89,16 @@ export default {
       hands: [
         {
           name: "Nautilus",
+          cards: [],
+          facedown: false,
+        },
+        {
+          name: "Nemo",
+          cards: [],
+          facedown: false,
+        },
+        {
+          name: "Arronax",
           cards: [],
           facedown: false,
         }
