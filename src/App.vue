@@ -14,12 +14,24 @@
       </div>
       <div class="center">
         <h2>Current Card</h2>
-        <Card v-if="centerCard" :facedown="flipped" :cardInfo="centerCard" large/>
+        <Card v-if="centerCard" :facedown="centerFacedown" :cardInfo="centerCard" large/>
         <p v-else>Draw a card to view it here</p>
-        <button @click="() => flipped = !flipped" :disabled="!centerCard">Flip</button>
+        <button @click="() => centerFacedown = !centerFacedown" :disabled="!centerCard">Flip</button>
       </div>
       <div class="right">
         <h2>Hands</h2>
+        <div v-for="({name, cards, facedown}, i) in hands" :key="name">
+          <div class="hand-inner">
+            <div v-for="(card, j) in cards" :key="card.title">
+              <Card :cardInfo="card" :facedown="facedown"/>
+              <button @click="() => useFromHand(i, j)" :disabled="centerCard">Use</button>
+            </div>
+          </div>
+          <div>
+            <button @click="() => { cards.push(centerCard); centerCard = null }" :disabled="!centerCard">Add to Hand</button>
+            <button @click="() => flipHand(i)" :disabled="!cards.length">Flip</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -35,7 +47,7 @@ export default {
   },
   data() {
     return {
-      flipped: false,
+      centerFacedown: false,
       centerCard: null,
       decks: [
         {
@@ -72,6 +84,13 @@ export default {
               },
           ]
         }
+      ],
+      hands: [
+        {
+          name: "Nautilus",
+          cards: [],
+          facedown: false,
+        }
       ]
     }
   },
@@ -83,8 +102,15 @@ export default {
           [list[i], list[j]] = [list[j], list[i]];
       }
       this.decks[index].cards = list
+    },
+    useFromHand(handIndex, cardIndex) {
+      this.centerCard = this.hands[handIndex].cards[cardIndex];
+      this.hands[handIndex].cards.splice(cardIndex, 1);
+    },
+    flipHand(handIndex) {
+      this.hands[handIndex].facedown = !this.hands[handIndex].facedown;
     }
-  }
+  },
 }
 </script>
 
@@ -105,5 +131,8 @@ export default {
   align-items: center;
   flex: 1;
   text-align: center;
+}
+.hand-inner {
+  display: flex;
 }
 </style>
