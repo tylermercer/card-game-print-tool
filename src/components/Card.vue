@@ -2,7 +2,7 @@
   <div :class="['back', large ? 'large' : 'small']" :style="{ backgroundColor: cardInfo.backColor }" v-if="facedown">
     <p>{{cardInfo.backText}}</p>
   </div>
-  <div :class="['front', large ? 'large' : 'small']" v-else>
+  <div :class="['front', large ? 'large' : 'small']" :style="{ backgroundColor: cardInfo.frontColor }" v-else>
     <h4>{{cardInfo.title}}</h4>
     <p>{{cardInfo.body}}</p>
   </div> 

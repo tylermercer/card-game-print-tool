@@ -4,14 +4,14 @@
     <div class="content">
       <div class="left">
         <h2>Decks</h2>
-        <div v-for="({cards, title}, i) in decks"
+        <div v-for="({cards, title, facedown}, i) in decks"
              :key="title">
           <p>
             {{title}} ({{cards.length}} cards)
           </p>
           <Card v-if="cards.length"
                 :cardInfo="cards[cards.length-1]"
-                facedown/>
+                :facedown="facedown"/>
           <button @click="() => centerCard = cards.pop()"
                   :disabled="!cards.length || centerCard">
             Draw
@@ -78,6 +78,14 @@
 <script>
 import Card from './components/Card.vue'
 
+const newDecks = []
+const fileContext = require.context('../game-data--demo/', true, /\.csv$/)
+fileContext.keys().forEach(key => newDecks.push({
+  title: key,
+  cards: fileContext(key),
+  facedown: true
+}))
+
 export default {
   name: 'App',
   components: {
@@ -88,40 +96,40 @@ export default {
       centerFacedown: false,
       centerCard: null,
       decks: [
-        {
-          title: "Voyage",
-          cards: [
-              {
-                title: "Attacked by Squids!",
-                body: "You'll need swords and axes to fight off these dangerous poulps. Their bodies are too soft for Leiden bullets.",
-                backText: "VOYAGE DECK",
-                backColor: "pink"
-              },
-              {
-                title: "Trapped Under the Ice!",
-                body: "The Nautilus' danger level immediately rises by one. This lasts for the next three turns.",
-                backText: "VOYAGE DECK",
-                backColor: "orange"
-              },
-          ]
-        },
-        {
-          title: "Exploration",
-          cards: [
-              {
-                title: "The Saloon",
-                body: "Looking out through the copper-reinforced glass window, you see marine life of all kinds.",
-                backText: "EXPLORE DECK",
-                backColor: "lightblue"
-              },
-              {
-                title: "The Captain's Quarters",
-                body: "The Captain plays a sad melody on his organ. A portrait of a young couple with two children hangs on the wall. His family?",
-                backText: "EXPLORE DECK",
-                backColor: "azure"
-              },
-          ]
-        }
+        // {
+        //   title: "Voyage",
+        //   cards: [
+        //       {
+        //         title: "Attacked by Squids!",
+        //         body: "You'll need swords and axes to fight off these dangerous poulps. Their bodies are too soft for Leiden bullets.",
+        //         backText: "VOYAGE DECK",
+        //         backColor: "pink"
+        //       },
+        //       {
+        //         title: "Trapped Under the Ice!",
+        //         body: "The Nautilus' danger level immediately rises by one. This lasts for the next three turns.",
+        //         backText: "VOYAGE DECK",
+        //         backColor: "orange"
+        //       },
+        //   ]
+        // },
+        // {
+        //   title: "Exploration",
+        //   cards: [
+        //       {
+        //         title: "The Saloon",
+        //         body: "Looking out through the copper-reinforced glass window, you see marine life of all kinds.",
+        //         backText: "EXPLORE DECK",
+        //         backColor: "lightblue"
+        //       },
+        //       {
+        //         title: "The Captain's Quarters",
+        //         body: "The Captain plays a sad melody on his organ. A portrait of a young couple with two children hangs on the wall. His family?",
+        //         backText: "EXPLORE DECK",
+        //         backColor: "azure"
+        //       },
+        //   ]
+        // }
       ],
       hands: [
         {
@@ -141,6 +149,9 @@ export default {
         }
       ]
     };
+  },
+  created() {
+    this.decks = newDecks.concat(newDecks.map(d => ({ title: d.title + " Discard", cards: [], facedown: false })));
   },
   methods: {
     shuffle(index) {
