@@ -78,13 +78,17 @@
 <script>
 import Card from './components/Card.vue'
 
-const newDecks = []
+const toTitleCase = (file) => {
+  let name = file.slice(2, -4);
+  return name[0].toUpperCase().concat(name.slice(1));
+}
+
 const fileContext = require.context('../game-data--demo/', true, /\.csv$/)
-fileContext.keys().forEach(key => newDecks.push({
-  title: key,
+const loadedDecks = fileContext.keys().map(key => ({
+  title: toTitleCase(key),
   cards: fileContext(key),
   facedown: true
-}))
+}));
 
 export default {
   name: 'App',
@@ -95,55 +99,20 @@ export default {
     return {
       centerFacedown: false,
       centerCard: null,
-      decks: [
-        // {
-        //   title: "Voyage",
-        //   cards: [
-        //       {
-        //         title: "Attacked by Squids!",
-        //         body: "You'll need swords and axes to fight off these dangerous poulps. Their bodies are too soft for Leiden bullets.",
-        //         backText: "VOYAGE DECK",
-        //         backColor: "pink"
-        //       },
-        //       {
-        //         title: "Trapped Under the Ice!",
-        //         body: "The Nautilus' danger level immediately rises by one. This lasts for the next three turns.",
-        //         backText: "VOYAGE DECK",
-        //         backColor: "orange"
-        //       },
-        //   ]
-        // },
-        // {
-        //   title: "Exploration",
-        //   cards: [
-        //       {
-        //         title: "The Saloon",
-        //         body: "Looking out through the copper-reinforced glass window, you see marine life of all kinds.",
-        //         backText: "EXPLORE DECK",
-        //         backColor: "lightblue"
-        //       },
-        //       {
-        //         title: "The Captain's Quarters",
-        //         body: "The Captain plays a sad melody on his organ. A portrait of a young couple with two children hangs on the wall. His family?",
-        //         backText: "EXPLORE DECK",
-        //         backColor: "azure"
-        //       },
-        //   ]
-        // }
-      ],
+      decks: [],
       hands: [
         {
-          name: "Nautilus",
+          name: "Player 1",
           cards: [],
           facedown: false,
         },
         {
-          name: "Nemo",
+          name: "Player 2",
           cards: [],
           facedown: false,
         },
         {
-          name: "Arronax",
+          name: "Player 3",
           cards: [],
           facedown: false,
         }
@@ -151,7 +120,7 @@ export default {
     };
   },
   created() {
-    this.decks = newDecks.concat(newDecks.map(d => ({ title: d.title + " Discard", cards: [], facedown: false })));
+    this.decks = loadedDecks.concat(loadedDecks.map(d => ({ title: d.title + " Discard", cards: [], facedown: false })));
   },
   methods: {
     shuffle(index) {
