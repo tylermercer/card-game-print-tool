@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>Card Game Prototype Tool</h1>
+    <button @click="reset">Reset</button>
     <div class="content">
       <div class="left">
         <h2>Decks</h2>
@@ -120,7 +121,7 @@ export default {
     };
   },
   created() {
-    this.decks = loadedDecks.concat(loadedDecks.map(d => ({ title: d.title + " Discard", cards: [], facedown: false })));
+    this.reset();
   },
   methods: {
     shuffle(index) {
@@ -137,6 +138,21 @@ export default {
     },
     flipHand(handIndex) {
       this.hands[handIndex].facedown = !this.hands[handIndex].facedown;
+    },
+    reset() {
+      this.hands.forEach(h => {
+        h.cards = [];
+        h.facedown = false;
+      });
+      this.decks = [
+        ...loadedDecks
+          .map(d => ({title: d.title, cards: [...d.cards], facedown: true}))
+          .concat(
+            loadedDecks.map(d => ({ title: d.title + " Discard", cards: [], facedown: false }))
+          )
+        ];
+      this.centerCard = null;
+      this.centerFacedown = false;
     }
   },
   watch: {
