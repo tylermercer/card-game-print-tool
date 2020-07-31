@@ -1,83 +1,14 @@
 <template>
-  <div id="app">
-    <h1>Card Game Prototype Tool</h1>
-    <button @click="reset">Reset</button>
-    <div class="content">
-      <div class="left">
-        <h2>Decks</h2>
-        <div v-for="({cards, title, facedown}, i) in decks"
-             :key="title">
-          <p>
-            {{title}} ({{cards.length}} cards)
-          </p>
-          <Card v-if="cards.length"
-                :cardInfo="cards[cards.length-1]"
-                :facedown="facedown"/>
-          <button @click="() => centerCard = cards.pop()"
-                  :disabled="!cards.length || centerCard">
-            Draw
-          </button>
-          <button @click="() => { cards.push(centerCard); centerCard = null }"
-                  :disabled="!centerCard">
-            Place
-          </button>
-          <button @click="() => shuffle(i)">
-            Shuffle
-          </button>
-        </div>
-      </div>
-      <div class="center">
-        <h2>Current Card</h2>
-        <Card v-if="centerCard"
-              :facedown="centerFacedown"
-              :cardInfo="centerCard"
-              large/>
-        <p v-else>
-          Draw a card to view it here
-        </p>
-        <button @click="() => centerFacedown = !centerFacedown"
-                :disabled="!centerCard">
-          Flip
-        </button>
-      </div>
-      <div class="right">
-        <h2>
-          Hands
-        </h2>
-        <div v-for="({name, cards, facedown}, i) in hands"
-             :key="name">
-          <p>
-            {{name}} ({{cards.length}} cards)
-          </p>
-          <div class="hand-inner">
-            <div v-for="(card, j) in cards"
-                 :key="card.title">
-              <Card :cardInfo="card"
-                    :facedown="facedown"/>
-              <button @click="() => useFromHand(i, j)"
-                      :disabled="centerCard">
-                Use
-              </button>
-            </div>
-          </div>
-          <div>
-            <button @click="() => { cards.push(centerCard); centerCard = null }"
-                    :disabled="!centerCard">
-              Add to {{name}}'s Hand
-            </button>
-            <button @click="() => flipHand(i)"
-                    :disabled="!cards.length">
-              Flip
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div>
+    <nav>
+      <h1><router-link to="/">Card Game Prototype Tool</router-link></h1>
+      <p><router-link to="/printer">Print Decks</router-link></p>
+    </nav>
+    <router-view :loadedDecks="loadedDecks"></router-view>
   </div>
 </template>
 
 <script>
-import Card from './components/Card.vue'
 
 const toTitleCase = (file) => {
   let name = file.slice(2, -4);
@@ -92,96 +23,32 @@ const loadedDecks = fileContext.keys().map(key => ({
 }));
 
 export default {
-  name: 'App',
-  components: {
-    Card
-  },
   data() {
     return {
-      centerFacedown: false,
-      centerCard: null,
-      decks: [],
-      hands: [
-        {
-          name: "Player 1",
-          cards: [],
-          facedown: false,
-        },
-        {
-          name: "Player 2",
-          cards: [],
-          facedown: false,
-        },
-        {
-          name: "Player 3",
-          cards: [],
-          facedown: false,
-        }
-      ]
-    };
-  },
-  created() {
-    this.reset();
-  },
-  methods: {
-    shuffle(index) {
-      let list = [...(this.decks[index].cards)];
-      for (let i = list.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [list[i], list[j]] = [list[j], list[i]];
-      }
-      this.decks[index].cards = list
-    },
-    useFromHand(handIndex, cardIndex) {
-      this.centerCard = this.hands[handIndex].cards[cardIndex];
-      this.hands[handIndex].cards.splice(cardIndex, 1);
-    },
-    flipHand(handIndex) {
-      this.hands[handIndex].facedown = !this.hands[handIndex].facedown;
-    },
-    reset() {
-      this.hands.forEach(h => {
-        h.cards = [];
-        h.facedown = false;
-      });
-      this.decks = [
-        ...loadedDecks
-          .map(d => ({title: d.title, cards: [...d.cards], facedown: true}))
-          .concat(
-            loadedDecks.map(d => ({ title: d.title + " Discard", cards: [], facedown: false }))
-          )
-        ];
-      this.centerCard = null;
-      this.centerFacedown = false;
-    }
-  },
-  watch: {
-    centerCard(newVal) {
-      if (newVal) this.centerFacedown = false;
+      loadedDecks
     }
   }
 }
 </script>
 
-<style>
-.content {
+<style scoped>
+.router-link-exact-active {
+  font-weight: bold;
+}
+nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: baseline;
 }
-#app {
-  padding: 20px;
+@media print {
+  nav {
+    display: none;
+  }
 }
-.center,
-.left,
-.right {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  text-align: center;
-}
-.hand-inner {
-  display: flex;
+nav * {
+  height: 24px;
+  padding: 10px;
+  margin: 0;
 }
 </style>
