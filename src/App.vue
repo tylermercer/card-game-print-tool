@@ -1,15 +1,11 @@
 <template>
   <div>
-    <nav>
-      <h1><router-link to="/">Card Game Prototype Tool</router-link></h1>
-      <p><router-link to="/printer">Print Decks</router-link></p>
-    </nav>
+    <h1 class="title"><router-link to="/">Card Game Prototype Tool</router-link></h1>
     <router-view :loadedDecks="loadedDecks"></router-view>
   </div>
 </template>
 
 <script>
-
 const toTitleCase = (file) => {
   let name = file.slice(2, -4);
   return name[0].toUpperCase().concat(name.slice(1));
@@ -31,24 +27,35 @@ export default {
 }
 </script>
 
+<style>
+@import '../node_modules/chota/dist/chota.min.css';
+
+.element-invisible {
+  position: absolute !important;
+  height: 1px; width: 1px; 
+  overflow: hidden;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  opacity: 0;
+}
+
+body {
+  padding: 10px;
+}
+
+section {
+  border: 1px solid var(--color-lightGrey);
+  padding: var(--grid-gutter);
+  padding-top: 8px;
+  border-radius: 4px;
+  margin: 10px;
+}
+</style>
+
 <style scoped>
-.router-link-exact-active {
-  font-weight: bold;
-}
-nav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: baseline;
-}
 @media print {
-  nav {
+  .title {
     display: none;
   }
-}
-nav * {
-  height: 24px;
-  padding: 10px;
-  margin: 0;
 }
 </style>

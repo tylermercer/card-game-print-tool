@@ -1,18 +1,19 @@
 <template>
   <div id="simulator">
-    <button @click="reset">Reset</button>
+    <button class="button outline dark" @click="reset">Reset</button>
     <div class="content">
       <div class="left">
         <h2>Decks</h2>
-        <div v-for="({cards, title, facedown}, i) in decks"
+        <section v-for="({cards, title, facedown}, i) in decks"
              :key="title">
-          <p>
+          <h4>
             {{title}} ({{cards.length}} cards)
-          </p>
+          </h4>
           <Card v-if="cards.length"
                 :cardInfo="cards[cards.length-1]"
                 :facedown="facedown"/>
-          <button @click="() => centerCard = cards.pop()"
+          <button class="button primary"
+                  @click="() => centerCard = cards.pop()"
                   :disabled="!cards.length || centerCard">
             Draw
           </button>
@@ -23,7 +24,7 @@
           <button @click="() => shuffle(i)">
             Shuffle
           </button>
-        </div>
+        </section>
       </div>
       <div class="center">
         <h2>Current Card</h2>
@@ -34,7 +35,8 @@
         <p v-else>
           Draw a card to view it here
         </p>
-        <button @click="() => centerFacedown = !centerFacedown"
+        <button class="button primary"
+                @click="() => centerFacedown = !centerFacedown"
                 :disabled="!centerCard">
           Flip
         </button>
@@ -43,11 +45,12 @@
         <h2>
           Hands
         </h2>
-        <div v-for="({name, cards, facedown}, i) in hands"
+        <section class="hand"
+             v-for="({name, cards, facedown}, i) in hands"
              :key="name">
-          <p>
+          <h4>
             {{name}} ({{cards.length}} cards)
-          </p>
+          </h4>
           <div class="hand-inner">
             <div v-for="(card, j) in cards"
                  :key="card.title">
@@ -60,16 +63,17 @@
             </div>
           </div>
           <div>
-            <button @click="() => { cards.push(centerCard); centerCard = null }"
+            <button class="button primary"
+                    @click="() => { cards.push(centerCard); centerCard = null }"
                     :disabled="!centerCard">
-              Add to {{name}}'s Hand
+              Give
             </button>
             <button @click="() => flipHand(i)"
                     :disabled="!cards.length">
               Flip
             </button>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   </div>
