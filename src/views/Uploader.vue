@@ -16,7 +16,11 @@
              @drop.prevent="e => handleFiles(e.dataTransfer.files)">
         <p>Click or drag-and-drop here to upload CSV files</p>
         <p><small>
-          or <router-link to="/simulator">try it with a deck of playing cards</router-link>
+          or{{" "}}
+            <button class="color-primary button clear text-button"
+                    @click="demo">
+              try it with a deck of playing cards
+            </button>
           </small></p>
       </label>
       <input id="file-input"
@@ -32,20 +36,26 @@
     </p>
     <p>
       <button class="button primary"
-              @click="() => publish('/simulator')"
+              @click="() => publish('simulate')"
               :disabled="decks.length === 0">
         Simulate
       </button>
     </p>
     <p>
-      <button @click="() => publish('/printer')"
+      <button @click="() => publish('print')"
               :disabled="decks.length === 0">
         Print Decks
       </button>
     </p>
   </div>
   <div class="centered" v-else>
-    <p>Your browser doesn't support FileReader, but you can still <router-link to="/simulator">simulate an UNO game</router-link></p>
+    <p>
+      Your browser doesn't support FileReader, but you can still{{" "}}
+      <button class="color-primary button clear text-button"
+              @click="demo">
+        try it with a deck of playing cards
+      </button>
+    </p>
   </div>
 </template>
 
@@ -95,8 +105,10 @@ export default {
     },
     publish(next) {
       if (this.decks.length === 0 || !next) return;
-      this.$emit('publish', this.decks);
-      this.$router.push(next);
+      this.$emit(next, this.decks);
+    },
+    demo() {
+      this.$emit('simulate');
     }
   },
 }
@@ -126,6 +138,7 @@ export default {
   background-image: linear-gradient(rgba(255,255,255,0), white 25%);
 }
 .drop-zone-background {
+  overflow-x: hidden;
   font-family: 'Courier New', Courier, monospace;
   opacity: 0.6;
   padding: 4px 8px;
@@ -133,5 +146,15 @@ export default {
 .centered {
   max-width: 600px;
   margin: 0 auto;
+}
+.text-button {
+  border: none;
+  background-color: unset;
+  padding: 0;
+  display: inline;
+  margin: 0;
+}
+.text-button:active {
+  transform: none;
 }
 </style>

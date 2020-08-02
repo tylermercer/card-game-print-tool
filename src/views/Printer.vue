@@ -2,11 +2,17 @@
   <div>
     <div class="noprint">
       <h2>Print Decks</h2>
-      <button onclick="window.print()">Print</button>
+      <button onclick="window.print()">
+        Print
+      </button>
       <hr/>
     </div>
-    <div class="page" v-for="{ cards, title } in loadedDecks" :key="title">
-      <Card v-for="card in cards" :key="card.title" :cardInfo="card"></Card>
+    <div class="page"
+         v-for="({ cards, title }, i) in loadedDecks"
+         :key="`${title} ${i}`">
+      <Card v-for="card in cards"
+            :key="card.title" 
+            :cardInfo="card"></Card>
     </div>
   </div>
 </template>

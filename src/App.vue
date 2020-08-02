@@ -1,11 +1,21 @@
 <template>
   <div>
-    <h1 class="title"><router-link to="/">Card Game Prototype Tool</router-link></h1>
-    <router-view :loadedDecks="loadedDecks" @publish="decks => loadedDecks = decks"></router-view>
+    <h1 class="title">Card Game Prototype Tool</h1>
+    <component :is="currentView"
+               :loadedDecks="loadedDecks"
+               @simulate="simulate"
+               @print="print"
+               @upload-new="uploadNew">
+    </component>
   </div>
 </template>
 
 <script>
+import Uploader from '@/views/Uploader'
+import Printer from '@/views/Printer'
+import Simulator from '@/views/Simulator'
+
+
 const toTitleCase = (file) => {
   let name = file.slice(2, -4);
   return name[0].toUpperCase().concat(name.slice(1));
@@ -21,7 +31,27 @@ const loadedDecks = fileContext.keys().map(key => ({
 export default {
   data() {
     return {
-      loadedDecks
+      loadedDecks,
+      currentView: Uploader
+    }
+  },
+  components: {
+    Uploader,
+    Printer,
+    Simulator
+  },
+  methods: {
+    simulate(decks) {
+      if (decks) this.loadedDecks = decks;
+      this.currentView = Simulator;
+    },
+    print(decks) {
+      this.loadedDecks = decks;
+      this.currentView = Printer;
+    },
+    uploadNew() {
+      this.loadedDecks = loadedDecks;
+      this.currentView = Uploader;
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div id="simulator">
-    <button class="button outline dark" @click="reset">Reset</button>
+    <button class="button outline dark" @click="reset">Reset Simulator</button>
     <div class="content">
       <div class="left">
         <h2>Decks</h2>
