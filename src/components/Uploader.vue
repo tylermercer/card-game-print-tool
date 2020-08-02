@@ -1,14 +1,21 @@
 <template>
   <div v-if="fileReaderSupported">
-    <p>
-      <label for="file-input" @dragover.prevent @drop.prevent="e => handleFiles(e.dataTransfer.files)">Click or drag-and-drop here to upload CSV files</label>
+    <div>
+      <label for="file-input"
+             @dragover.prevent
+             @drop.prevent="e => handleFiles(e.dataTransfer.files)">
+        <p>Click or drag-and-drop here to upload CSV files</p>
+        <p><small>
+          or <router-link to="/simulator">try it with a deck of playing cards</router-link>
+          </small></p>
+      </label>
       <input id="file-input"
             class="element-invisible"
             type="file"
             accept=".csv"
             @input="e => handleFiles(e.target.files)"
             multiple/>
-    </p>
+    </div>
     <p v-for="{ title, path, cards } in decks"
        :key="path">
       {{title}} ({{cards.length}} card{{cards.length !== 1 ? 's' : ''}})
@@ -94,7 +101,7 @@ label {
   text-align: center;
   width: 100%;
   height: 300px;
-  margin: 0 auto;
+  margin: 0 auto 16px auto;
   border: 2px dashed #999;
   padding: 30px;
   font-size: 20px;
