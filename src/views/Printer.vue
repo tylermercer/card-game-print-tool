@@ -2,10 +2,12 @@
   <div>
     <div class="noprint">
       <h2>Print Decks</h2>
-      <button onclick="window.print()">
+      <button class="button primary"
+              onclick="window.print()">
         Print
       </button>
-      <button class="button" @click="() => $emit('upload-new')">Back</button>
+      <button class="button"
+              @click="() => $emit('upload-new')">Back</button>
       <hr/>
     </div>
     <div class="page"
