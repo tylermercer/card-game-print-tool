@@ -30,8 +30,8 @@
             @input="e => handleFiles(e.target.files)"
             multiple/>
     </div>
-    <p v-for="{ title, path, cards } in loadedDecks"
-       :key="path">
+    <p v-for="{ title, key, cards } in loadedDecks"
+       :key="key">
       {{title}} ({{cards.length}} card{{cards.length !== 1 ? 's' : ''}})
     </p>
     <p>
@@ -60,21 +60,7 @@
 </template>
 
 <script>
-import Papa from 'papaparse'
-
-function toJson(file) {
-  return new Promise((resolve, reject) => {
-    Papa.parse(file, {
-      header: true,
-      complete (results) {
-        resolve(results.data)
-      },
-      error (err) {
-        reject(err)
-      }
-    })
-  })
-}
+import { decksFromFiles } from '@/load-decks.js'
 
 export default {
   props: {
@@ -88,23 +74,7 @@ export default {
   },
   methods: {
     async handleFiles(files) {
-      this.loadedDecks = this.loadedDecks.concat(await Promise.all([...files].map(async f => {
-        let data = await toJson(f);
-        let cards = [];
-        data.forEach(d => {
-          let num = d.quantity;
-          delete d.quantity;
-          for (let i = 0; i < num; i++) {
-            cards.push({...d})
-          }
-        })
-        return {
-          title: f.name,
-          path: f.path,
-          cards,
-          facedown: true,
-        }
-      })));
+      this.loadedDecks = this.loadedDecks.concat(await decksFromFiles(files));
     },
     publish(next) {
       if (this.loadedDecks.length === 0 || !next) return;

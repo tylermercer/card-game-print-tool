@@ -15,20 +15,7 @@
 import Uploader from '@/views/Uploader'
 import Printer from '@/views/Printer'
 import Simulator from '@/views/Simulator'
-
-
-const toTitleCase = (file) => {
-  let name = file.slice(2, -4);
-  return name[0].toUpperCase().concat(name.slice(1));
-}
-
-const fileContext = require.context('../demo-data/', true, /\.csv$/)
-const demoDecks = fileContext.keys().map(key => ({
-  title: toTitleCase(key),
-  cards: fileContext(key),
-  facedown: true,
-  demo: true
-}));
+import demoDecks from '@/demo-decks.js'
 
 export default {
   data() {
