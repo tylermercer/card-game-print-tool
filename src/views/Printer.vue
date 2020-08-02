@@ -12,7 +12,7 @@
          v-for="({ cards, title }, i) in decks"
          :key="`${title} ${i}`">
       <Card v-for="card in cards"
-            :key="card.title" 
+            :key="card.title + card.body"
             :cardInfo="card"></Card>
     </div>
   </div>
