@@ -41,8 +41,9 @@ export default {
     uploadNew() {
       this.currentView = Uploader;
     },
-    demo() {
-      this.decks = demoDecks;
+    async demo() {
+      this.decks = await demoDecks;
+      console.log(this.decks);
       this.currentView = Simulator;
     }
   }
