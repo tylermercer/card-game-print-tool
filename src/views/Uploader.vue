@@ -34,19 +34,15 @@
        :key="key">
       {{title}} ({{cards.length}} card{{cards.length !== 1 ? 's' : ''}})
     </p>
-    <p>
-      <button class="button primary"
-              @click="() => publish('simulate')"
-              :disabled="loadedDecks.length === 0">
-        Simulate
-      </button>
-    </p>
-    <p>
-      <button @click="() => publish('print')"
-              :disabled="loadedDecks.length === 0">
-        Print Decks
-      </button>
-    </p>
+    <button class="button primary"
+            @click="() => publish('simulate')"
+            :disabled="loadedDecks.length === 0">
+      Simulate
+    </button>
+    <button @click="() => publish('print')"
+            :disabled="loadedDecks.length === 0">
+      Print
+    </button>
   </div>
   <div class="centered" v-else>
     <p>

@@ -179,7 +179,4 @@ export default {
 .hand-inner {
   display: flex;
 }
-button {
-  margin: 4px;
-}
 </style>
