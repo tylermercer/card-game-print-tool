@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="title"><router-link to="/">Card Game Prototype Tool</router-link></h1>
-    <router-view :loadedDecks="loadedDecks"></router-view>
+    <router-view :loadedDecks="loadedDecks" @publish="decks => loadedDecks = decks"></router-view>
   </div>
 </template>
 

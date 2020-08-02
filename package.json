@@ -10,6 +10,7 @@
   "dependencies": {
     "chota": "^0.8.0",
     "core-js": "^3.6.5",
+    "papaparse": "^5.2.0",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4"
   },
