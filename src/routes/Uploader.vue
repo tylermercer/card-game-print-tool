@@ -1,5 +1,5 @@
 <template>
-  <div v-if="fileReaderSupported">
+  <div class="centered" v-if="fileReaderSupported">
     <div class="drop-zone-container">
       <div class="drop-zone-background">
         <div>title,body,backText,backColor,frontColor,quantity</div>
@@ -44,7 +44,7 @@
       </button>
     </p>
   </div>
-  <div v-else>
+  <div class="centered" v-else>
     <p>Your browser doesn't support FileReader, but you can still <router-link to="/simulator">simulate an UNO game</router-link></p>
   </div>
 </template>
@@ -129,5 +129,9 @@ export default {
   font-family: 'Courier New', Courier, monospace;
   opacity: 0.6;
   padding: 4px 8px;
+}
+.centered {
+  max-width: 600px;
+  margin: 0 auto;
 }
 </style>

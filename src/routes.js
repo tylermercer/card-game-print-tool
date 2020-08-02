@@ -1,11 +1,11 @@
 import Simulator from './routes/Simulator'
 import Printer from './routes/Printer'
-import Landing from './routes/Landing'
+import Uploader from './routes/Uploader'
 
 export default [
   {
     path: '/',
-    component: Landing
+    component: Uploader
   },
   {
     path: '/simulator',
