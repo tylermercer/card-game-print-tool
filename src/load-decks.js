@@ -1,21 +1,48 @@
 import Papa from 'papaparse'
 
-const decksFromFiles = (files) => {
-  return Promise.all([...files].map(async f => {
-    let data = await toJson(f);
-    return deckFromArray(data, f.name, f.path);
-  }))
+const decksFromFiles = async (files) => {
+  let errors = [];
+  let results = await Promise.all(
+    [...files].map(async f => {
+      let data = await toJson(f);
+      return await deckFromArray(data, f.name, f.path);
+    })
+    .map(p => p.catch(e => {
+      errors.push(e);
+    }))
+  )
+  return [results.filter(f => f != null), errors];
 }
 
-const deckFromArray = (data, name, key, demo) => {
+const hasKeys = (object, keys) => keys.reduce((t, k) => t && (k in object), true);
+
+const isDeck = (deck) => {
+  return hasKeys(deck[0], [
+    'title',
+    'body',
+    'backText',
+    'backColor',
+    'frontColor',
+    'quantity'
+  ]);
+}
+
+const deckFromArray = async (data, name, key, demo) => {
   let cards = [];
-  data.forEach(d => {
-    let num = d.quantity;
+  if (!data)
+    throw Error(`No cards in file '${name}'`);
+  if (!isDeck(data))
+    throw Error(`'${name}' does not have the correct columns`);
+  for (let i in data) {
+    let d = data[i];
+    let num = +d.quantity;
+    if (`${num}` === 'NaN')
+      throw Error(`One or more rows in '${name}' has a non-numeric quantity`);
     delete d.quantity;
-    for (let i = 0; i < num; i++) {
+    for (let j = 0; j < num; j++) {
       cards.push({...d})
     }
-  })
+  }
   return {
     title: name,
     key,
@@ -25,8 +52,11 @@ const deckFromArray = (data, name, key, demo) => {
   }
 }
 
+const csvRegex = new RegExp("(.*?)\\.(csv)$");
+
 const toJson = (file) => {
   return new Promise((resolve, reject) => {
+    if (!csvRegex.test(file.name)) reject(new Error(`'${file.name}' is not a CSV`))
     Papa.parse(file, {
       header: true,
       complete (results) {

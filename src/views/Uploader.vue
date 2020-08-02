@@ -14,14 +14,21 @@
              for="file-input"
              @dragover.prevent
              @drop.prevent="e => handleFiles(e.dataTransfer.files)">
-        <p>Click or drag-and-drop here to upload CSV files</p>
-        <p><small>
-          or{{" "}}
-            <button class="color-primary button clear text-button"
-                    @click="demo">
-              try it with a deck of playing cards
-            </button>
-          </small></p>
+        <template v-if="error">
+          <p class="text-error">{{error}}</p>
+        </template>
+        <template v-else>
+          <p>Click or drag-and-drop here to upload CSV files</p>
+          <p>
+            <small>
+              or{{" "}}
+                <button class="color-primary button clear text-button"
+                        @click="demo">
+                  try it with a deck of playing cards
+                </button>
+            </small>
+          </p>
+        </template>
       </label>
       <input id="file-input"
             class="element-invisible"
@@ -70,14 +77,18 @@ export default {
   data() {
     return {
       fileReaderSupported: !!window.FileReader,
-      loadedDecks: this.decks.filter(d => !d.demo)
+      loadedDecks: this.decks.filter(d => !d.demo),
+      error: null
     }
   },
   methods: {
     async handleFiles(files) {
-      this.loadedDecks = this.loadedDecks.concat(await decksFromFiles(files));
+      let [newDecks, errors] = await decksFromFiles(files);
+      this.error = (errors && errors.length)? errors[0].message : null;
+      this.loadedDecks = this.loadedDecks.concat(newDecks);
     },
     deleteDeck(index) {
+      this.error = null;
       this.loadedDecks.splice(index, 1);
     },
     publish(next) {
