@@ -21,7 +21,7 @@ const toTitleCase = (file) => {
   return name[0].toUpperCase().concat(name.slice(1));
 }
 
-const fileContext = require.context('../game-data--demo/', true, /\.csv$/)
+const fileContext = require.context('../demo-data/', true, /\.csv$/)
 const loadedDecks = fileContext.keys().map(key => ({
   title: toTitleCase(key),
   cards: fileContext(key),
