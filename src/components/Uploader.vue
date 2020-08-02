@@ -1,7 +1,17 @@
 <template>
   <div v-if="fileReaderSupported">
-    <div>
-      <label for="file-input"
+    <div class="drop-zone-container">
+      <div class="drop-zone-background">
+        <div>title,body,backText,backColor,frontColor,quantity</div>
+        <div>A♠,,Velocipede,lightblue,lightgray,1</div>
+        <div>2♠,,Velocipede,lightblue,lightgray,1</div>
+        <div>3♠,,Velocipede,lightblue,lightgray,1</div>
+        <div>4♠,,Velocipede,lightblue,lightgray,1</div>
+        <div>5♠,,Velocipede,lightblue,lightgray,1</div>
+        <div>6♠,,Velocipede,lightblue,lightgray,1</div>
+      </div>
+      <label class="drop-zone"
+             for="file-input"
              @dragover.prevent
              @drop.prevent="e => handleFiles(e.dataTransfer.files)">
         <p>Click or drag-and-drop here to upload CSV files</p>
@@ -93,18 +103,31 @@ export default {
 </script>
 
 <style scoped>
-label {
+.drop-zone-container {
+  position: relative;
+  height: 300px;
+  margin-bottom: 16px;
+}
+.drop-zone {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   width: 100%;
-  height: 300px;
-  margin: 0 auto 16px auto;
+  height: 100%;
   border: 2px dashed #999;
   padding: 30px;
   font-size: 20px;
   border-radius: 8px;
+  background-image: linear-gradient(rgba(255,255,255,0), white 25%);
+}
+.drop-zone-background {
+  font-family: 'Courier New', Courier, monospace;
+  opacity: 0.6;
+  padding: 4px 8px;
 }
 </style>
