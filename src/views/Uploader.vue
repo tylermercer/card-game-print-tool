@@ -30,10 +30,15 @@
             @input="e => handleFiles(e.target.files)"
             multiple/>
     </div>
-    <p v-for="{ title, key, cards } in loadedDecks"
-       :key="key">
-      {{title}} ({{cards.length}} card{{cards.length !== 1 ? 's' : ''}})
-    </p>
+    <div v-for="({ title, key, cards }, i) in loadedDecks"
+       :key="key"
+       class="item">
+      <span class="is-vertical-align">{{title}} ({{cards.length}} card{{cards.length !== 1 ? 's' : ''}})</span>
+      <button class="button outline pull-right"
+              @click="() => deleteDeck(i)">
+        Delete
+      </button>
+    </div>
     <button class="button primary"
             @click="() => publish('simulate')"
             :disabled="loadedDecks.length === 0">
@@ -72,6 +77,9 @@ export default {
     async handleFiles(files) {
       this.loadedDecks = this.loadedDecks.concat(await decksFromFiles(files));
     },
+    deleteDeck(index) {
+      this.loadedDecks.splice(index, 1);
+    },
     publish(next) {
       if (this.loadedDecks.length === 0 || !next) return;
       this.$emit(next, this.loadedDecks);
@@ -87,7 +95,7 @@ export default {
 .drop-zone-container {
   position: relative;
   height: 300px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 .drop-zone {
   position: absolute;
@@ -125,5 +133,10 @@ export default {
 }
 .text-button:active {
   transform: none;
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
 }
 </style>
