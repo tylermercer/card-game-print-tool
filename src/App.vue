@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title">Card Game Prototype Tool</h1>
+    <h1 class="title">Card Game Prototyping Tool</h1>
     <component :is="currentView"
                :decks="decks"
                @simulate="simulate"
