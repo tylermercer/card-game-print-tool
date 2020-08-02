@@ -37,7 +37,13 @@ export default {
   flex-direction: column;
   justify-content: center;
   margin: 10px;
-  box-shadow: 0px 4px 4px rgba(0,0,0,0.2);
+  break-inside: avoid;
+}
+@media screen {
+  .front,
+  .back {
+    box-shadow: 0px 4px 4px rgba(0,0,0,0.2);
+  }
 }
 .back.large {
   font-size: 2rem;

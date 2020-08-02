@@ -5,12 +5,19 @@
       <button onclick="window.print()">Print</button>
       <hr/>
     </div>
-    <p>Maiores consequatur vero unde porro accusantium natus similique. Omnis qui accusamus labore ducimus facilis aut culpa optio. Qui eius dolor tempore quo in sit.</p>
+    <div class="page" v-for="{ cards, title } in loadedDecks" :key="title">
+      <Card v-for="card in cards" :key="card.title" :cardInfo="card"></Card>
+    </div>
   </div>
 </template>
 
 <script>
+import Card from '@/components/Card.vue'
+
 export default {
+  components: {
+    Card
+  },
   props: {
     loadedDecks: Array,
   }
@@ -22,5 +29,17 @@ export default {
   .noprint {
     display: none;
   }
+}
+.page {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color-adjust: exact !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+.page >>> * {
+  box-shadow: none;
+  border-radius: 0;
 }
 </style>
