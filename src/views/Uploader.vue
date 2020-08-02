@@ -30,20 +30,20 @@
             @input="e => handleFiles(e.target.files)"
             multiple/>
     </div>
-    <p v-for="{ title, path, cards } in decks"
+    <p v-for="{ title, path, cards } in loadedDecks"
        :key="path">
       {{title}} ({{cards.length}} card{{cards.length !== 1 ? 's' : ''}})
     </p>
     <p>
       <button class="button primary"
               @click="() => publish('simulate')"
-              :disabled="decks.length === 0">
+              :disabled="loadedDecks.length === 0">
         Simulate
       </button>
     </p>
     <p>
       <button @click="() => publish('print')"
-              :disabled="decks.length === 0">
+              :disabled="loadedDecks.length === 0">
         Print Decks
       </button>
     </p>
@@ -77,15 +77,18 @@ function toJson(file) {
 }
 
 export default {
+  props: {
+    decks: Array
+  },
   data() {
     return {
       fileReaderSupported: !!window.FileReader,
-      decks: []
+      loadedDecks: this.decks.filter(d => !d.demo)
     }
   },
   methods: {
     async handleFiles(files) {
-      this.decks = this.decks.concat(await Promise.all([...files].map(async f => {
+      this.loadedDecks = this.loadedDecks.concat(await Promise.all([...files].map(async f => {
         let data = await toJson(f);
         let cards = [];
         data.forEach(d => {
@@ -104,11 +107,11 @@ export default {
       })));
     },
     publish(next) {
-      if (this.decks.length === 0 || !next) return;
-      this.$emit(next, this.decks);
+      if (this.loadedDecks.length === 0 || !next) return;
+      this.$emit(next, this.loadedDecks);
     },
     demo() {
-      this.$emit('simulate');
+      this.$emit('demo');
     }
   },
 }

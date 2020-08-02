@@ -5,7 +5,7 @@
     <div class="content">
       <div class="left">
         <h2>Decks</h2>
-        <section v-for="({cards, title, facedown}, i) in decks"
+        <section v-for="({cards, title, facedown}, i) in currentDecks"
              :key="title">
           <h4>
             {{title}} ({{cards.length}} cards)
@@ -89,13 +89,13 @@ export default {
     Card
   },
   props: {
-    loadedDecks: Array
+    decks: Array
   },
   data() {
     return {
       centerFacedown: false,
       centerCard: null,
-      decks: [],
+      currentDecks: [],
       hands: [
         {
           name: "Player 1",
@@ -120,12 +120,12 @@ export default {
   },
   methods: {
     shuffle(index) {
-      let list = [...(this.decks[index].cards)];
+      let list = [...(this.currentDecks[index].cards)];
       for (let i = list.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [list[i], list[j]] = [list[j], list[i]];
       }
-      this.decks[index].cards = list
+      this.currentDecks[index].cards = list
     },
     useFromHand(handIndex, cardIndex) {
       this.centerCard = this.hands[handIndex].cards[cardIndex];
@@ -139,11 +139,11 @@ export default {
         h.cards = [];
         h.facedown = false;
       });
-      this.decks = [
-        ...this.loadedDecks
+      this.currentDecks = [
+        ...this.decks
           .map(d => ({title: d.title, cards: [...d.cards], facedown: true}))
           .concat(
-            this.loadedDecks.map(d => ({ title: d.title + " Discard", cards: [], facedown: false }))
+            this.decks.map(d => ({ title: d.title + " Discard", cards: [], facedown: false }))
           )
         ];
       this.centerCard = null;

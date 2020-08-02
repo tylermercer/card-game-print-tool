@@ -2,10 +2,11 @@
   <div>
     <h1 class="title">Card Game Prototype Tool</h1>
     <component :is="currentView"
-               :loadedDecks="loadedDecks"
+               :decks="decks"
                @simulate="simulate"
                @print="print"
-               @upload-new="uploadNew">
+               @upload-new="uploadNew"
+               @demo="demo">
     </component>
   </div>
 </template>
@@ -22,16 +23,17 @@ const toTitleCase = (file) => {
 }
 
 const fileContext = require.context('../demo-data/', true, /\.csv$/)
-const loadedDecks = fileContext.keys().map(key => ({
+const demoDecks = fileContext.keys().map(key => ({
   title: toTitleCase(key),
   cards: fileContext(key),
-  facedown: true
+  facedown: true,
+  demo: true
 }));
 
 export default {
   data() {
     return {
-      loadedDecks,
+      decks: [],
       currentView: Uploader
     }
   },
@@ -42,16 +44,19 @@ export default {
   },
   methods: {
     simulate(decks) {
-      if (decks) this.loadedDecks = decks;
+      if (decks) this.decks = decks;
       this.currentView = Simulator;
     },
     print(decks) {
-      this.loadedDecks = decks;
+      if (decks) this.decks = decks;
       this.currentView = Printer;
     },
     uploadNew() {
-      this.loadedDecks = loadedDecks;
       this.currentView = Uploader;
+    },
+    demo() {
+      this.decks = demoDecks;
+      this.currentView = Simulator;
     }
   }
 }

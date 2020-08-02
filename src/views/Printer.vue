@@ -8,7 +8,7 @@
       <hr/>
     </div>
     <div class="page"
-         v-for="({ cards, title }, i) in loadedDecks"
+         v-for="({ cards, title }, i) in decks"
          :key="`${title} ${i}`">
       <Card v-for="card in cards"
             :key="card.title" 
@@ -25,7 +25,7 @@ export default {
     Card
   },
   props: {
-    loadedDecks: Array,
+    decks: Array,
   }
 }
 </script>
