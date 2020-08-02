@@ -5,6 +5,7 @@
       <button onclick="window.print()">
         Print
       </button>
+      <button class="button" @click="() => $emit('upload-new')">Back</button>
       <hr/>
     </div>
     <div class="page"
