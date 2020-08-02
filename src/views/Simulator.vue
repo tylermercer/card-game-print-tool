@@ -1,6 +1,7 @@
 <template>
   <div id="simulator">
     <button class="button outline dark" @click="reset">Reset Simulator</button>
+    <button class="button" @click="() => $emit('upload-new')">Upload New Decks</button>
     <div class="content">
       <div class="left">
         <h2>Decks</h2>
