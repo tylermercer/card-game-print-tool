@@ -43,7 +43,6 @@ export default {
     },
     async demo() {
       this.decks = await demoDecks;
-      console.log(this.decks);
       this.currentView = Simulator;
     }
   }
