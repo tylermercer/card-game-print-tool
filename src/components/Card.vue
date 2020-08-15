@@ -8,11 +8,13 @@
        :style="{ backgroundColor: `${cardInfo.frontColor} !important` }"
        v-else>
     <h4>{{cardInfo.title}}</h4>
-    <p>{{cardInfo.body}}</p>
+    <div v-html="bodyMd"></div>
   </div> 
 </template>
 
 <script>
+import MarkdownIt from 'markdown-it'
+
 export default {
   props: {
     facedown: {
@@ -25,6 +27,14 @@ export default {
       default: false
     }
   },
+  data() {
+    let { body } = this.cardInfo
+    console.log(body)
+    return {
+      ...this.cardInfo,
+      bodyMd: body ? new MarkdownIt().render(body) : null,
+    }
+  }
 }
 </script>
 

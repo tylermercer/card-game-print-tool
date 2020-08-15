@@ -10,6 +10,7 @@
   "dependencies": {
     "chota": "^0.8.0",
     "core-js": "^3.6.5",
+    "markdown-it": "^11.0.0",
     "papaparse": "^5.2.0",
     "raw-loader": "^4.0.1",
     "vue": "^2.6.11"
