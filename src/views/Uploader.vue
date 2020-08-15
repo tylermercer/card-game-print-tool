@@ -123,7 +123,7 @@ export default {
   padding: 30px;
   font-size: 20px;
   border-radius: 8px;
-  background-image: linear-gradient(rgba(255,255,255,0), white 25%);
+  background-image: linear-gradient(rgba(255,255,255,0) 0%, white 25%, white 75%, rgba(255,255,255,0) 100%);
 }
 .drop-zone-background {
   overflow-x: hidden;
