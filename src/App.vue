@@ -43,7 +43,7 @@ export default {
     },
     async demo() {
       this.decks = await demoDecks;
-      this.currentView = Simulator;
+      this.currentView = Printer;
     }
   }
 }
