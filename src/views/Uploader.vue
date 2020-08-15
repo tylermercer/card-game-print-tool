@@ -39,11 +39,7 @@
       </button>
     </div>
     <button class="button primary"
-            @click="() => publish('simulate')"
-            :disabled="loadedDecks.length === 0">
-      Simulate
-    </button>
-    <button @click="() => publish('print')"
+            @click="() => publish('print')"
             :disabled="loadedDecks.length === 0">
       Print
     </button>

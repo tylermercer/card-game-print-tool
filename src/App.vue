@@ -3,7 +3,6 @@
     <h1 class="title">Card Game Prototyping Tool</h1>
     <component :is="currentView"
                :decks="decks"
-               @simulate="simulate"
                @print="print"
                @upload-new="uploadNew"
                @demo="demo">
@@ -14,7 +13,6 @@
 <script>
 import Uploader from '@/views/Uploader'
 import Printer from '@/views/Printer'
-import Simulator from '@/views/Simulator'
 import demoDecks from '@/demo-decks.js'
 
 export default {
@@ -26,14 +24,9 @@ export default {
   },
   components: {
     Uploader,
-    Printer,
-    Simulator
+    Printer
   },
   methods: {
-    simulate(decks) {
-      if (decks) this.decks = decks;
-      this.currentView = Simulator;
-    },
     print(decks) {
       if (decks) this.decks = decks;
       this.currentView = Printer;
