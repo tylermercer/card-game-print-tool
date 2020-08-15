@@ -29,7 +29,6 @@ export default {
   },
   data() {
     let { body } = this.cardInfo
-    console.log(body)
     return {
       ...this.cardInfo,
       bodyMd: body ? new MarkdownIt().render(body) : null,
