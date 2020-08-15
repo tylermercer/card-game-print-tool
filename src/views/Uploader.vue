@@ -1,15 +1,7 @@
 <template>
   <div class="centered" v-if="fileReaderSupported">
     <div class="drop-zone-container">
-      <div class="drop-zone-background">
-        <div>title,body,backText,backColor,frontColor,quantity</div>
-        <div>A♠,,Velocipede,lightblue,lightgray,1</div>
-        <div>2♠,,Velocipede,lightblue,lightgray,1</div>
-        <div>3♠,,Velocipede,lightblue,lightgray,1</div>
-        <div>4♠,,Velocipede,lightblue,lightgray,1</div>
-        <div>5♠,,Velocipede,lightblue,lightgray,1</div>
-        <div>6♠,,Velocipede,lightblue,lightgray,1</div>
-      </div>
+      <pre class="drop-zone-background">{{playingCards}}</pre>
       <label class="drop-zone"
              for="file-input"
              @dragover.prevent
@@ -69,6 +61,7 @@
 
 <script>
 import { decksFromFiles } from '@/load-decks.js'
+import playingCards from '@/../demo-data/playing-cards.csv'
 
 export default {
   props: {
@@ -78,7 +71,8 @@ export default {
     return {
       fileReaderSupported: !!window.FileReader,
       loadedDecks: this.decks.filter(d => !d.demo),
-      error: null
+      error: null,
+      playingCards,
     }
   },
   methods: {
@@ -123,13 +117,15 @@ export default {
   padding: 30px;
   font-size: 20px;
   border-radius: 8px;
-  background-image: linear-gradient(rgba(255,255,255,0) 0%, white 25%, white 75%, rgba(255,255,255,0) 100%);
+  background-image: linear-gradient(rgba(255,255,255,0) 0%, white 25%, white 70%, rgba(255,255,255,0) 100%);
 }
 .drop-zone-background {
-  overflow-x: hidden;
+  background-color: white;
+  overflow: hidden;
   font-family: 'Courier New', Courier, monospace;
   opacity: 0.6;
   padding: 4px 8px;
+  height: 100%;
 }
 .centered {
   max-width: 600px;
