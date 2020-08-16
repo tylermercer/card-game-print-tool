@@ -1,11 +1,11 @@
 <template>
   <div :class="['back', large ? 'large' : 'small', print ? 'print' : '']"
-       :style="{ backgroundColor: `${cardInfo.backColor}` }"
+       :style="{ backgroundColor: colored ? `${cardInfo.backColor}` : null }"
        v-if="facedown">
     <p>{{cardInfo.backText}}</p>
   </div>
   <div :class="['front', large ? 'large' : 'small', print ? 'print' : '']"
-       :style="{ backgroundColor: `${cardInfo.frontColor}` }"
+       :style="{ backgroundColor: colored ? `${cardInfo.frontColor}` : null }"
        v-else>
     <h4>{{cardInfo.title}}</h4>
     <div v-html="bodyMd"></div>
@@ -29,6 +29,10 @@ export default {
     print: {
       type: Boolean,
       default: false
+    },
+    colored: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

@@ -8,6 +8,8 @@
       </button>
       <button class="button"
               @click="() => $emit('upload-new')">Back</button>
+      <input type="checkbox" id="cb-enable-colors" v-model="enableColors">
+      <label for="cb-enable-colors">Show card colors</label>
       <hr/>
     </div>
     <div :class="['page', i % 2 === 1 ? 'backs' : '']"
@@ -17,6 +19,7 @@
             :key="card.title + card.body"
             :cardInfo="card"
             :facedown="i % 2 === 1"
+            :colored="enableColors"
             print></Card>
     </div>
   </div>
@@ -48,6 +51,7 @@ export default {
     ).reduce((acc, each) => [...acc, ...each], [])
     return {
       pages,
+      enableColors: true
     };
   },
 }
