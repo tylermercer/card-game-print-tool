@@ -1,11 +1,11 @@
 <template>
-  <div :class="['back', large ? 'large' : 'small']"
-       :style="{ backgroundColor: `${cardInfo.backColor} !important` }"
+  <div :class="['back', large ? 'large' : 'small', print ? 'print' : '']"
+       :style="{ backgroundColor: `${cardInfo.backColor}` }"
        v-if="facedown">
     <p>{{cardInfo.backText}}</p>
   </div>
-  <div :class="['front', large ? 'large' : 'small']"
-       :style="{ backgroundColor: `${cardInfo.frontColor} !important` }"
+  <div :class="['front', large ? 'large' : 'small', print ? 'print' : '']"
+       :style="{ backgroundColor: `${cardInfo.frontColor}` }"
        v-else>
     <h4>{{cardInfo.title}}</h4>
     <div v-html="bodyMd"></div>
@@ -23,6 +23,10 @@ export default {
     },
     cardInfo: Object,
     large: {
+      type: Boolean,
+      default: false
+    },
+    print: {
       type: Boolean,
       default: false
     }
@@ -45,7 +49,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 10px;
+  margin: 4px;
   break-inside: avoid;
 }
 @media screen {
@@ -73,5 +77,17 @@ export default {
   height: 140px;
   width: 100px;
   border-radius: 5px;
+}
+.print {
+  margin: 0;
+  border-width: 1px;
+  width: 25%;
+  height: 25%;
+}
+.back.print {
+  font-size: 2.5rem;
+}
+.front.print {
+  font-size: 1.5rem;
 }
 </style>
