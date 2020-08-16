@@ -1,26 +1,38 @@
 <template>
   <div class="printer">
-    <div class="noprint">
+    <div class="noprint controls">
       <h2>Print Decks</h2>
+      <p>
+        <input type="radio" id="front-and-back" value="front-and-back" v-model="printMode">
+        <label for="front-and-back">Print front and back</label>
+      </p>
+      <p>
+        <input type="radio" id="front-only" value="front-only" v-model="printMode">
+        <label for="front-only">Print front only</label>
+      </p>
+      <p>
+        <input type="checkbox" id="enable-colors" v-model="enableColors">
+        <label for="enable-colors">Show card colors</label>
+      </p>
+      <p>{{pages.length}} Pages</p>
+      <button class="button"
+              @click="() => $emit('upload-new')">Back</button>
       <button class="button primary"
               onclick="window.print()">
         Print
       </button>
-      <button class="button"
-              @click="() => $emit('upload-new')">Back</button>
-      <input type="checkbox" id="cb-enable-colors" v-model="enableColors">
-      <label for="cb-enable-colors">Show card colors</label>
-      <hr/>
     </div>
-    <div :class="['page', i % 2 === 1 ? 'backs' : '']"
-         v-for="(page, i) in pages"
-         :key="`${i}`">
-      <Card v-for="card in page"
-            :key="card.title + card.body"
-            :cardInfo="card"
-            :facedown="i % 2 === 1"
-            :colored="enableColors"
-            print></Card>
+    <div class="scrim">
+      <div :class="['page', (includeBacks &&  i % 2 === 1) ? 'backs' : '']"
+          v-for="(page, i) in pages"
+          :key="`${i}`">
+        <Card v-for="card in page"
+              :key="card.title + card.body"
+              :cardInfo="card"
+              :facedown="includeBacks && i % 2 === 1"
+              :colored="enableColors"
+              print></Card>
+      </div>
     </div>
   </div>
 </template>
@@ -36,24 +48,36 @@ export default {
     decks: Array,
   },
   data() {
-    let pages = this.decks.map(
+    return {
+      enableColors: true,
+      printMode: "front-and-back"
+    };
+  },
+  computed: {
+    includeBacks() {
+      return this.printMode === "front-and-back"
+    },
+    pages() {
+      return this.decks.map(
         d => d.cards.reduce((acc, each, i) => {
           if (i % 16 === 0) {
             acc.push([]);//front
-            acc.push([]);//back
+            if (this.includeBacks) acc.push([]);//back
           }
-          acc[acc.length-1].push(each); //back
-          acc[acc.length-2].push(each); //front
+          if (this.includeBacks) {
+            acc[acc.length-1].push(each); //back
+            acc[acc.length-2].push(each); //front
+          }
+          else {
+            acc[acc.length-1].push(each); //back
+          }
           return acc;
         },
         []
       )
     ).reduce((acc, each) => [...acc, ...each], [])
-    return {
-      pages,
-      enableColors: true
-    };
-  },
+    }
+  }
 }
 </script>
 
@@ -81,6 +105,26 @@ export default {
   page-break-after: always;
   break-after: always;
   position: relative;
+}
+.page:last-child {
+  page-break-after: auto;
+  break-after: auto;
+}
+@media screen {
+  .page {
+    max-width: 696px;
+    padding: 36px 48px;
+    margin: 0 auto;
+    border-bottom: 1px dashed gray;
+    background-color: white;
+  }
+  .scrim {
+    background-color: lightgray;
+    padding: 10px;
+  }
+  .controls {
+    padding-bottom: 10px;
+  }
 }
 .page.backs {
   flex-direction: row-reverse;
