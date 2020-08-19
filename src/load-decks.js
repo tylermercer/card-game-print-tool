@@ -36,6 +36,10 @@ const deckFromArray = async (data, name, key, demo) => {
   for (let i in data) {
     let d = data[i];
     let num = +d.quantity;
+    if (!d.title) {
+      console.warn(`Skipping card with no title on line ${+i+2} of ${name}`);
+      continue;
+    }
     if (`${num}` === 'NaN')
       throw Error(`One or more rows in '${name}' has a non-numeric quantity`);
     delete d.quantity;
@@ -59,6 +63,7 @@ const toJson = (file) => {
     if (!csvRegex.test(file.name)) reject(new Error(`'${file.name}' is not a CSV`))
     Papa.parse(file, {
       header: true,
+      skipEmptyLines: 'greedy',
       complete (results) {
         resolve(results.data)
       },
