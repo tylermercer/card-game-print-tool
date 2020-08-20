@@ -49,12 +49,14 @@ export default {
 .front,
 .back {
   border: 2px solid black;
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 4px;
   break-inside: avoid;
+  padding: 5px;
+  align-items: center;
 }
 @media screen {
   .front,
@@ -92,6 +94,10 @@ export default {
   font-size: 2.5rem;
 }
 .front.print {
-  font-size: 1.5rem;
+  font-size: 0.8rem;
+}
+.front >>> p,
+.front >>> h4 {
+  margin: 0;
 }
 </style>
