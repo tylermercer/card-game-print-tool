@@ -29,14 +29,22 @@ export default {
   methods: {
     print(decks) {
       if (decks) this.decks = decks;
-      this.currentView = Printer;
+      this.goToPrinter();
     },
     uploadNew() {
       this.currentView = Uploader;
     },
     async demo() {
       this.decks = await demoDecks;
+      this.goToPrinter();
+    },
+    goToPrinter() {
+      window.history.pushState({}, "Print", "print");
       this.currentView = Printer;
+      window.onpopstate = () => {
+        this.currentView = Uploader;
+        window.history.onpopstate = () => {};
+      }
     }
   }
 }
