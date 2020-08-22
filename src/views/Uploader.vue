@@ -1,57 +1,60 @@
 <template>
-  <div class="centered" v-if="fileReaderSupported">
-    <div class="drop-zone-container">
-      <pre class="drop-zone-background">{{playingCards}}</pre>
-      <label class="drop-zone"
-             for="file-input"
-             @dragover.prevent
-             @drop.prevent="e => handleFiles(e.dataTransfer.files)">
-        <template v-if="error">
-          <p class="text-error">{{error}}</p>
-        </template>
-        <template v-else>
-          <p>Click or drag-and-drop here to upload CSV files</p>
-          <p>
-            <small>
-              or{{" "}}
-                <button class="color-primary button clear text-button"
-                        @click="demo">
-                  try it with a deck of playing cards
-                </button>
-            </small>
-          </p>
-        </template>
-      </label>
-      <input id="file-input"
-            class="element-invisible"
-            type="file"
-            accept=".csv"
-            @input="e => handleFiles(e.target.files)"
-            multiple/>
-    </div>
-    <div v-for="({ title, key, cards }, i) in loadedDecks"
-       :key="key"
-       class="item">
-      <span class="is-vertical-align">{{title}} ({{cards.length}} card{{cards.length !== 1 ? 's' : ''}})</span>
-      <button class="button outline pull-right"
-              @click="() => deleteDeck(i)">
-        Delete
+  <div class="centered">
+    <h1 class="title">Card Game Prototyping Tool</h1>
+    <template v-if="fileReaderSupported">
+      <div class="drop-zone-container">
+        <pre class="drop-zone-background">{{playingCards}}</pre>
+        <label class="drop-zone"
+              for="file-input"
+              @dragover.prevent
+              @drop.prevent="e => handleFiles(e.dataTransfer.files)">
+          <template v-if="error">
+            <p class="text-error">{{error}}</p>
+          </template>
+          <template v-else>
+            <p>Click or drag-and-drop here to upload CSV files</p>
+            <p>
+              <small>
+                or{{" "}}
+                  <button class="color-primary button clear text-button"
+                          @click="demo">
+                    try it with a deck of playing cards
+                  </button>
+              </small>
+            </p>
+          </template>
+        </label>
+        <input id="file-input"
+              class="element-invisible"
+              type="file"
+              accept=".csv"
+              @input="e => handleFiles(e.target.files)"
+              multiple/>
+      </div>
+      <div v-for="({ title, key, cards }, i) in loadedDecks"
+        :key="key"
+        class="item">
+        <span class="is-vertical-align">{{title}} ({{cards.length}} card{{cards.length !== 1 ? 's' : ''}})</span>
+        <button class="button outline pull-right"
+                @click="() => deleteDeck(i)">
+          Delete
+        </button>
+      </div>
+      <button class="button primary"
+              @click="() => publish('print')"
+              :disabled="loadedDecks.length === 0">
+        Print
       </button>
-    </div>
-    <button class="button primary"
-            @click="() => publish('print')"
-            :disabled="loadedDecks.length === 0">
-      Print
-    </button>
-  </div>
-  <div class="centered" v-else>
-    <p>
+    </template>
+    <template v-else>
+      <p>
       Your browser doesn't support FileReader, but you can still{{" "}}
       <button class="color-primary button clear text-button"
               @click="demo">
         try it with a deck of playing cards
       </button>
     </p>
+    </template>
   </div>
 </template>
 

@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <h1 class="title">Card Game Prototyping Tool</h1>
-    <component :is="currentView"
-               :decks="decks"
-               @print="print"
-               @upload-new="uploadNew"
-               @demo="demo">
-    </component>
-  </div>
+  <component :is="currentView"
+              :decks="decks"
+              @print="print"
+              @upload-new="uploadNew"
+              @demo="demo">
+  </component>
 </template>
 
 <script>
@@ -73,13 +70,5 @@ section {
 }
 button {
   margin: 4px;
-}
-</style>
-
-<style scoped>
-@media print {
-  .title {
-    display: none;
-  }
 }
 </style>
