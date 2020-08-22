@@ -14,6 +14,12 @@ const decksFromFiles = async (files) => {
   return [results.filter(f => f != null), errors];
 }
 
+const deckFromGoogleSheets = async (name, key) => {
+  const data = await parse(`https://docs.google.com/spreadsheets/d/${key}/gviz/tq?tqx=out:csv&sheet=${name}`, true);
+  console.log(data);
+  return deckFromArray(data, `${name} (Google Sheets)`, `${name} (Google Sheets)`);
+}
+
 const hasKeys = (object, keys) => keys.reduce((t, k) => t && (k in object), true);
 
 const isDeck = (deck) => {
@@ -58,11 +64,16 @@ const deckFromArray = async (data, name, key, demo) => {
 
 const csvRegex = new RegExp("(.*?)\\.(csv)$");
 
-const toJson = (file) => {
+const toJson = async (file) => {
+  if (!csvRegex.test(file.name)) throw new Error(`'${file.name}' is not a CSV`)
+  return await parse(file);
+}
+
+const parse = (file, download) => {
   return new Promise((resolve, reject) => {
-    if (!csvRegex.test(file.name)) reject(new Error(`'${file.name}' is not a CSV`))
     Papa.parse(file, {
       header: true,
+      download,
       skipEmptyLines: 'greedy',
       complete (results) {
         resolve(results.data)
@@ -70,11 +81,12 @@ const toJson = (file) => {
       error (err) {
         reject(err)
       }
-    })
+    });
   })
 }
 
 export {
   deckFromArray,
-  decksFromFiles
+  decksFromFiles,
+  deckFromGoogleSheets
 };

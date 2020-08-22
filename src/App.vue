@@ -71,4 +71,7 @@ section {
 button {
   margin: 4px;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 </style>
