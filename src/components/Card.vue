@@ -1,10 +1,10 @@
 <template>
-  <div :class="['back', large ? 'large' : 'small', print ? 'print' : '']"
+  <div class="back"
        :style="{ backgroundColor: colored ? `${cardInfo.backColor}` : null }"
        v-if="facedown">
     <p>{{cardInfo.backText}}</p>
   </div>
-  <div :class="['front', large ? 'large' : 'small', print ? 'print' : '']"
+  <div class="front"
        :style="{ backgroundColor: colored ? `${cardInfo.frontColor}` : null }"
        v-else>
     <h4>{{cardInfo.title}}</h4>
@@ -48,52 +48,22 @@ export default {
 <style scoped>
 .front,
 .back {
-  border: 2px solid black;
+  border: 1px solid black;
   text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 4px;
   break-inside: avoid;
   padding: 5px;
   align-items: center;
-}
-@media screen {
-  .front,
-  .back {
-    box-shadow: 0px 4px 4px rgba(0,0,0,0.2);
-  }
-}
-.back.large {
-  font-size: 2rem;
-}
-.back.small,
-.front.large {
-  font-size: 1rem;
-}
-.front.small {
-  font-size: 0.5rem;
-}
-.large {
-  height: 280px;
-  width: 200px;
-  border-radius: 10px;
-}
-.small {
-  height: 140px;
-  width: 100px;
-  border-radius: 5px;
-}
-.print {
   margin: 0;
-  border-width: 1px;
   width: 25%;
   height: 25%;
 }
-.back.print {
+.back {
   font-size: 2.5rem;
 }
-.front.print {
+.front {
   font-size: 0.8rem;
 }
 .front >>> p,

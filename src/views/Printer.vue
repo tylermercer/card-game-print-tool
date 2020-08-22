@@ -30,8 +30,7 @@
               :key="card.title + card.body"
               :cardInfo="card"
               :facedown="includeBacks && i % 2 === 1"
-              :colored="enableColors"
-              print></Card>
+              :colored="enableColors"></Card>
       </div>
     </div>
   </div>
