@@ -26,8 +26,8 @@
       <div :class="['page', (includeBacks &&  i % 2 === 1) ? 'backs' : '']"
           v-for="(page, i) in pages"
           :key="`${i}`">
-        <Card v-for="card in page"
-              :key="card.title + card.body"
+        <Card v-for="(card, j) in page"
+              :key="card.title + j"
               :cardInfo="card"
               :facedown="includeBacks && i % 2 === 1"
               :colored="enableColors"></Card>
