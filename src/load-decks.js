@@ -16,7 +16,6 @@ const decksFromFiles = async (files) => {
 
 const deckFromGoogleSheets = async (name, key) => {
   const data = await parse(`https://docs.google.com/spreadsheets/d/${key}/gviz/tq?tqx=out:csv&sheet=${name}`, true);
-  console.log(data);
   return deckFromArray(data, `${name} (Google Sheets)`, `${name} (Google Sheets)`);
 }
 

@@ -123,8 +123,6 @@ export default {
       const key = matches[1];
 
       const sheetNames = this.gsSheetNames.split(',');
-
-      console.log(key, sheetNames);
       try {
         const newDecks = await Promise.all(sheetNames.map((name) => deckFromGoogleSheets(name, key)));
         this.gsUploadError = null;
