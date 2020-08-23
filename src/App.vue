@@ -8,38 +8,38 @@
 </template>
 
 <script>
-import Uploader from '@/views/Uploader'
-import Printer from '@/views/Printer'
+import UploadView from '@/views/UploadView'
+import PrintView from '@/views/PrintView'
 import demoDecks from '@/demo-decks.js'
 
 export default {
   data() {
     return {
       decks: [],
-      currentView: Uploader
+      currentView: UploadView
     }
   },
   components: {
-    Uploader,
-    Printer
+    UploadView,
+    PrintView
   },
   methods: {
     print(decks) {
       if (decks) this.decks = decks;
-      this.goToPrinter();
+      this.goToPrintView();
     },
     uploadNew() {
-      this.currentView = Uploader;
+      this.currentView = UploadView;
     },
     async demo() {
       this.decks = await demoDecks;
-      this.goToPrinter();
+      this.goToPrintView();
     },
-    goToPrinter() {
+    goToPrintView() {
       window.history.pushState({}, "Print", "print");
-      this.currentView = Printer;
+      this.currentView = PrintView;
       window.onpopstate = () => {
-        this.currentView = Uploader;
+        this.currentView = UploadView;
         window.history.onpopstate = () => {};
       }
     }
