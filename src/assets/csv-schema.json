@@ -1,0 +1,8 @@
+{
+  "title":"The title of a given card. Shown in bold at the top of the card's front content.",
+  "body":"The body text of a card. Shown in the card's front content, below the title. (This field supports Markdown!)",
+  "backText":"The text to display on the back of the card. Rendered in large lettering (so be judicious about how much text you put here). Useful for identifying which deck a card belongs to (for games that have multiple decks).",
+  "frontColor":"The color of the front of the card. Must be a valid CSS color (e.g. `#FFA500` or `lightblue`).",
+  "backColor":"The color of the front of the card. Must be a valid CSS color.",
+  "quantity":"How many copies of this card should be included in the deck. Must be a number literal, e.g. `10`."
+}
