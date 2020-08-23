@@ -34,7 +34,7 @@ const isDeck = (deck) => {
 
 const deckFromArray = async (data, name, key, demo) => {
   let cards = [];
-  if (!data)
+  if (!data || data.length === 0)
     throw Error(`No cards in file '${name}'`);
   if (!isDeck(data))
     throw Error(`'${name}' does not have the correct columns`);
