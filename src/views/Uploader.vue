@@ -131,7 +131,8 @@ export default {
         this.loadedDecks = this.loadedDecks.concat(newDecks);
       }
       catch(e) {
-        this.gsUploadError = e.message;
+        console.error(e);
+        this.gsUploadError = e.message == 'Unauthorized' ? 'Could not access spreadsheet. Is link sharing enabled?' : e.message;
       }
     },
     deleteDeck(index) {
