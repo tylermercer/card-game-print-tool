@@ -84,6 +84,7 @@
             :disabled="loadedDecks.length === 0">
       Print
     </button>
+    <SchemaInfo></SchemaInfo>
   </div>
 </template>
 
@@ -91,9 +92,14 @@
 import { decksFromFiles, deckFromGoogleSheets } from '@/load-decks.js'
 import playingCards from '@/../demo-data/playing-cards.csv'
 
+import SchemaInfo from '@/components/SchemaInfo.vue'
+
 export default {
   props: {
     decks: Array
+  },
+  components: {
+    SchemaInfo
   },
   data() {
     return {

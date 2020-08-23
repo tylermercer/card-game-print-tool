@@ -61,17 +61,14 @@ export default {
 body {
   padding: 10px;
 }
-section {
-  border: 1px solid var(--color-lightGrey);
-  padding: var(--grid-gutter);
-  padding-top: 8px;
-  border-radius: 4px;
-  margin: 10px;
-}
 button {
   margin: 4px;
 }
-.cursor-pointer {
+.cursor-pointer,
+summary {
   cursor: pointer;
+}
+table.lined tr {
+  border-bottom: 1px solid var(--color-lightGrey);
 }
 </style>
