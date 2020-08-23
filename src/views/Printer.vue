@@ -16,7 +16,7 @@
       </p>
       <p>{{pages.length}} Pages</p>
       <button class="button"
-              @click="() => $emit('upload-new')">Back</button>
+              @click="back">Back</button>
       <button class="button primary"
               onclick="window.print()">
         Print
@@ -75,6 +75,12 @@ export default {
         []
       )
     ).reduce((acc, each) => [...acc, ...each], [])
+    }
+  },
+  methods: {
+    back() {
+      window.history.back();
+      this.$emit('upload-new')
     }
   }
 }
