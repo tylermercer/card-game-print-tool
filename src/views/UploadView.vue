@@ -1,6 +1,6 @@
 <template>
   <div class="centered">
-    <h1 class="title">Card Game Prototyping Tool</h1>
+    <h1 class="title">Card Game Printing Tool</h1>
     <div class="tabs is-full">
       <a :class="!useGoogleSheets? 'tab active' : 'tab'" @click="() => useGoogleSheets = false">Load from my computer</a>
       <a :class="useGoogleSheets? 'tab active' : 'tab'" @click="() => useGoogleSheets = true">Load from Google Sheets</a>
